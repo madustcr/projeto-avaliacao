@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, url_for, redirect
 from sqlalchemy.exc import IntegrityError
 from models.models import Produto, Cliente, Venda, db
 from forms import ClienteForm, ProdutoForm, VendaForm
@@ -11,35 +11,38 @@ app.config['SECRET_KEY'] = 'sua_chave_secreta'
 
 db.init_app(app)
 
-@app.route('/clientes', methods=['POST'])
-def add_cliente():
-    form = ClienteForm(data=request.json)
+@app.route('/adicionar-clientes', methods=['GET', 'POST'])
+def adicionar_cliente():
+    if request.method == 'POST':
+        form = ClienteForm(data=request.form)  # Usar `request.form` para dados de formulário
 
-    if form.validate():
-        new_cliente = Cliente(
-            nome=form.nome.data,
-            idade=form.idade.data,
-            cpf=form.cpf.data,
-            email=form.email.data,
-            rua=form.rua.data,
-            numero=form.numero.data,
-            complemento=form.complemento.data,
-            bairro=form.bairro.data,
-            cidade=form.cidade.data,
-            estado=form.estado.data,
-            cep=form.cep.data
-        )
+        if form.validate():
+            new_cliente = Cliente(
+                nome=form.nome.data,
+                idade=form.idade.data,
+                cpf=form.cpf.data,
+                email=form.email.data,
+                rua=form.rua.data,
+                numero=form.numero.data,
+                complemento=form.complemento.data,
+                bairro=form.bairro.data,
+                cidade=form.cidade.data,
+                estado=form.estado.data,
+                cep=form.cep.data
+            )
 
-        db.session.add(new_cliente)
-        try:
-            db.session.commit()
-        except IntegrityError:
-            db.session.rollback()
-            return jsonify({"error": "Erro ao adicionar cliente. CPF ou email já existente."}), 409
+            db.session.add(new_cliente)
+            try:
+                db.session.commit()
+                return jsonify({"message": "Cliente adicionado com sucesso!"}), 201
+            except IntegrityError:
+                db.session.rollback()
+                return jsonify({"error": "Erro ao adicionar cliente. CPF ou email já existente."}), 409
 
-        return jsonify({"message": "Cliente adicionado com sucesso!"}), 201
-    else:
         return jsonify(form.errors), 400  # Retorna erros de validação do formulário
+    else:
+        # Carrega a página com o formulário para inserção
+        return render_template('adicionar_clientes.html')
 
 
 @app.route('/produtos', methods=['POST'])
@@ -146,7 +149,6 @@ def get_produtos():
         'imagem': produto.imagem
     } for produto in produtos]
     return render_template('produtos.html', produtos=produtos_list)
-
 
 @app.route('/clientes/<int:id>', methods=['PUT'])
 def update_cliente(id):

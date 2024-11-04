@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, Length, Email, NumberRange, Optiona
 # Formulário de Cliente
 class ClienteForm(FlaskForm):
     nome = StringField('Nome', validators=[DataRequired(), Length(min=3, max=100)])
-    idade = IntegerField('Idade', validators=[DataRequired(), NumberRange(min=0, max=120)])
+    idade = IntegerField('Idade', validators=[DataRequired(), NumberRange(min=0, max=999)])
     cpf = StringField('CPF', validators=[
         DataRequired(),
         Length(min=11, max=14, message="CPF deve ter 11 caracteres ou 14 no formato 'XXX.XXX.XXX-XX'."),
@@ -17,7 +17,7 @@ class ClienteForm(FlaskForm):
     complemento = StringField('Complemento', validators=[Optional(), Length(max=50)])
     bairro = StringField('Bairro', validators=[DataRequired(), Length(max=50)])
     cidade = StringField('Cidade', validators=[DataRequired(), Length(max=50)])
-    estado = StringField('Estado', validators=[DataRequired(), Length(min=2, max=2)])
+    estado = StringField('Estado', validators=[DataRequired(), Length(min=0, max=30)])
     cep = StringField('CEP', validators=[DataRequired(), Length(min=8, max=10)])
 
 
