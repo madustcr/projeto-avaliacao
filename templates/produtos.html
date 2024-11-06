@@ -52,6 +52,12 @@
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+
+        img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
@@ -72,11 +78,11 @@
                 {% for produto in produtos %}
                 <tr>
                     <td>{{ produto.id }}</td>
-                    <td>{{ produto.nome }}</td>
+                    <td><a href="{{ url_for('view_produto', id=produto.id) }}">{{ produto.nome }}</a></td>
                     <td>{{ produto.preco }}</td>
                     <td>{{ produto.quantidade }}</td>
                     <td>{{ produto.descricao }}</td>
-                    <td>{{ produto.imagem }}</td>
+                    <td><img src="{{ produto.imagem }}" alt="Imagem do produto"></td> <!-- Exibe a imagem -->
                 </tr>
                 {% endfor %}
             </tbody>

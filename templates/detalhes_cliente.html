@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Cliente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 50%;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin: 5px 0;
+        }
+
+        .btn-edit {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-edit:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-delete {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 20px;
+            background-color: #a83258;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-edit:hover {
+            background-color: #0056b3;
+        }
+
+      .btn-delete:hover {
+            background-color: #7a2f47;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Detalhes do Cliente</h1>
+        <p><strong>Nome:</strong> {{ cliente.nome }}</p>
+        <p><strong>Idade:</strong> {{ cliente.idade }}</p>
+        <p><strong>CPF:</strong> {{ cliente.cpf }}</p>
+        <p><strong>Email:</strong> {{ cliente.email }}</p>
+        <p><strong>Endereço:</strong> {{ cliente.rua }}, {{ cliente.numero }} {{ cliente.complemento }}, {{ cliente.bairro }}, {{ cliente.cidade }} - {{ cliente.estado }}, {{ cliente.cep }}</p>
+
+        <!-- Botão de Editar -->
+        <a href="{{ url_for('update_cliente', id=cliente.id) }}" class="btn-edit">Editar Cliente</a>
+
+        <!-- Botão de Deletar -->
+        <form method="post" action="{{ url_for('deletar_cliente', id=cliente.id) }}" style="display:inline;">
+            <button type="submit" class="btn-delete" onclick="return confirm('Tem certeza de que deseja deletar este cliente?')">Deletar Cliente</button>
+        </form>
+    </div>
+</body>
+</html>

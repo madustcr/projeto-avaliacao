@@ -52,6 +52,15 @@
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -72,7 +81,7 @@
                 {% for cliente in clientes %}
                 <tr>
                     <td>{{ cliente.id }}</td>
-                    <td>{{ cliente.nome }}</td>
+                    <td><a href="{{ url_for('view_cliente', id=cliente.id) }}">{{ cliente.nome }}</a></td>
                     <td>{{ cliente.idade }}</td>
                     <td>{{ cliente.cpf }}</td>
                     <td>{{ cliente.email }}</td>

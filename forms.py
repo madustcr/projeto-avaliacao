@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, FloatField
+from wtforms import StringField, IntegerField, FloatField, FileField
 from wtforms.validators import DataRequired, Length, Email, NumberRange, Optional, Regexp
 
 # Formulário de Cliente
@@ -27,7 +27,7 @@ class ProdutoForm(FlaskForm):
     preco = FloatField('Preço', validators=[DataRequired(), NumberRange(min=0.01)])
     quantidade = IntegerField('Quantidade', validators=[DataRequired(), NumberRange(min=0)])
     descricao = StringField('Descrição', validators=[Optional()])
-    imagem = StringField('Imagem', validators=[Optional()])
+    imagem = FileField('Imagem', validators=[Optional()])
 
 
 # Formulário de Venda

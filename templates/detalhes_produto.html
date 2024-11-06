@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Produto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 50%;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin: 5px 0;
+        }
+
+        .product-image {
+            display: block;
+            height: 600px; /* Tamanho fixo para altura */
+            width: auto; /* A largura será ajustada automaticamente */
+            margin: 20px 0;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-edit {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-edit:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-delete {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 20px;
+            background-color: #a83258;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-delete:hover {
+            background-color: #7a2f47;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Detalhes do Produto</h1>
+
+        <!-- Exibindo a Imagem do Produto -->
+        <img src="{{ url_for('static', filename='uploads/' + produto_imagem) }}" alt="Imagem do Produto" class="product-image">
+
+        <p><strong>Nome:</strong> {{ produto.nome }}</p>
+        <p><strong>Descrição:</strong> {{ produto.descricao }}</p>
+        <p><strong>Preço:</strong> R$ {{ produto.preco }}</p>
+        <p><strong>Quantidade em Estoque:</strong> {{ produto.quantidade }}</p>
+        <p><strong>Código do Produto:</strong> {{ produto.id }}</p>
+
+        <!-- Botão de Editar -->
+        <a href="{{ url_for('update_produto', id=produto.id) }}" class="btn-edit">Editar Produto</a>
+
+        <!-- Botão de Deletar -->
+        <form method="post" action="{{ url_for('deletar_produto', id=produto.id) }}" style="display:inline;">
+            <button type="submit" class="btn-delete" onclick="return confirm('Tem certeza de que deseja deletar este produto?')">Deletar Produto</button>
+        </form>
+    </div>
+</body>
+</html>

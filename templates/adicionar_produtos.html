@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Cliente</title>
+    <title>Adicionar Produto</title>
     <style>
         /* Estilos gerais */
         body {
@@ -42,7 +42,7 @@
             color: #333;
         }
 
-        input[type="text"], input[type="number"], input[type="email"] {
+        input[type="text"], input[type="number"], input[type="file"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
@@ -63,70 +63,58 @@
             background-color: #0056b3;
         }
 
-        /* Estilos para as mensagens flash */
-        .flash-message {
+        /* Estilos para mensagens flash */
+        .flash {
             padding: 10px;
-            margin-bottom: 20px;
             border-radius: 5px;
-            text-align: center;
-            color: #fff;
+            margin-bottom: 15px;
         }
-        .flash-message.success {
-            background-color: #28a745;
+
+        .flash.success {
+            background-color: #d4edda;
+            color: #155724;
         }
-        .flash-message.danger {
-            background-color: #dc3545;
+
+        .flash.danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .flash.warning {
+            background-color: #fff3cd;
+            color: #856404;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Adicionar Cliente</h1>
+        <h1>Adicionar Produto</h1>
 
-        <!-- Bloco para exibir mensagens de flash -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="flash-message {{ category }}">{{ message }}</div>
+                    <div class="flash {{ category }}">{{ message }}</div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
 
-        <form action="/adicionar-clientes" method="POST">
+        <form action="/adicionar-produtos" method="POST" enctype="multipart/form-data">
             <label for="nome">Nome:</label>
             <input type="text" id="nome" name="nome" required>
 
-            <label for="idade">Idade:</label>
-            <input type="number" id="idade" name="idade" required>
+            <label for="preco">Preço:</label>
+            <input type="number" id="preco" name="preco" step="0.01" required>
 
-            <label for="cpf">CPF:</label>
-            <input type="text" id="cpf" name="cpf" required>
+            <label for="quantidade">Quantidade:</label>
+            <input type="number" id="quantidade" name="quantidade" required>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <label for="descricao">Descrição:</label>
+            <input type="text" id="descricao" name="descricao">
 
-            <label for="rua">Rua:</label>
-            <input type="text" id="rua" name="rua" required>
+            <label for="imagem">Imagem do Produto:</label>
+            <input type="file" id="imagem" name="imagem" accept="image/*">
 
-            <label for="numero">Número:</label>
-            <input type="text" id="numero" name="numero" required>
-
-            <label for="complemento">Complemento:</label>
-            <input type="text" id="complemento" name="complemento">
-
-            <label for="bairro">Bairro:</label>
-            <input type="text" id="bairro" name="bairro" required>
-
-            <label for="cidade">Cidade:</label>
-            <input type="text" id="cidade" name="cidade" required>
-
-            <label for="estado">Estado:</label>
-            <input type="text" id="estado" name="estado" required>
-
-            <label for="cep">CEP:</label>
-            <input type="text" id="cep" name="cep" required>
-
-            <button type="submit">Adicionar Cliente</button>
+            <button type="submit">Adicionar Produto</button>
         </form>
     </div>
 </body>

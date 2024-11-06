@@ -20,7 +20,6 @@ class Cliente(db.Model):
     def _repr_(self):
         return f'<Cliente {self.nome}>'
 
-
 # Classe Produto
 class Produto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -33,14 +32,12 @@ class Produto(db.Model):
     def _repr_(self):
         return f'<Produto {self.nome}>'
 
-
 # Classe Venda
 class Venda(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
     produto_id = db.Column(db.Integer, db.ForeignKey('produto.id'), nullable=False)
     quantidade_vendida = db.Column(db.Integer, nullable=False)
-
     cliente = db.relationship('Cliente', backref='vendas')
     produto = db.relationship('Produto', backref='vendas')
 
