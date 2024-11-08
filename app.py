@@ -14,13 +14,14 @@ app.config['SECRET_KEY'] = 'sua_chave_secreta'
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 app.config['UPLOAD_FOLDER'] = os.path.join(BASE_DIR, 'static', 'uploads')
 
-#agora eu to setando placeholder dentro da minha pasta /uploads entao nao faz sentido mandar checar isso
-#mas vou deixar ai so pra caso eu mude o jeito de pensar tudo isso
-
 #if not os.path.exists(app.config['UPLOAD_FOLDER']):
 #    os.makedirs(app.config['UPLOAD_FOLDER'])
 
 db.init_app(app)
+
+@app.route('/')
+def homepage():
+    return render_template('homepage.html')
 
 @app.route('/adicionar-clientes', methods=['GET', 'POST'])
 def adicionar_cliente():
@@ -58,9 +59,6 @@ def adicionar_cliente():
     # Renderiza o formulário no GET
     return render_template('adicionar_clientes.html', form=form)
 
-
-#ESSE AQUI EU TO OBRIGANDO A ADICIONAR A IMAGEM
-#ESSE É CERTEZA QUE FUNCIONA
 @app.route('/adicionar-produtos', methods=['GET', 'POST'])
 def add_produto():
     form = ProdutoForm()
@@ -207,8 +205,6 @@ def view_produto(id):
     return render_template('detalhes_produto.html', produto=produto, produto_imagem=produto_imagem)
 
 
-
-
 @app.route('/front/produtos', methods=['GET'])
 def get_produtos():
     produtos = Produto.query.all()
@@ -316,10 +312,6 @@ def update_produto(id):
 
     # Para GET, renderiza o template HTML do formulário
     return render_template('editar_produto.html', form=form, produto=produto, produto_id=id)
-
-
-
-
 
 
 @app.route('/deletar-clientes/<int:id>', methods=['POST'])
