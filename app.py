@@ -14,9 +14,6 @@ app.config['SECRET_KEY'] = 'sua_chave_secreta'
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 app.config['UPLOAD_FOLDER'] = os.path.join(BASE_DIR, 'static', 'uploads')
 
-#if not os.path.exists(app.config['UPLOAD_FOLDER']):
-#    os.makedirs(app.config['UPLOAD_FOLDER'])
-
 db.init_app(app)
 
 @app.route('/')
@@ -25,7 +22,7 @@ def homepage():
 
 @app.route('/adicionar-clientes', methods=['GET', 'POST'])
 def adicionar_cliente():
-    form = ClienteForm(data=request.form)  # Usar `request.form` para dados de formulário
+    form = ClienteForm(data=request.form)  
 
     if request.method == 'POST':
         if form.validate():
@@ -56,7 +53,6 @@ def adicionar_cliente():
             flash("Erro no formulário. Verifique os campos e tente novamente.", "danger")
             return render_template('adicionar_clientes.html', form=form)
 
-    # Renderiza o formulário no GET
     return render_template('adicionar_clientes.html', form=form)
 
 @app.route('/adicionar-produtos', methods=['GET', 'POST'])
@@ -64,25 +60,23 @@ def add_produto():
     form = ProdutoForm()
 
     if request.method == 'POST':
-        print("Método POST chamado.")  # Debug
+        print("Método POST chamado.")  
         if form.validate_on_submit():
-            print("Formulário validado com sucesso.")  # Debug
+            print("Formulário validado com sucesso.")  
             if 'imagem' in request.files:
                 imagem = request.files['imagem']
                 if imagem.filename != '':
                     nome_imagem = secure_filename(imagem.filename)
                     caminho_imagem = os.path.join(app.config['UPLOAD_FOLDER'], nome_imagem)
 
-                    # Tenta salvar a imagem no caminho especificado
                     try:
                         imagem.save(caminho_imagem)
-                        print(f"Imagem salva em {caminho_imagem}.")  # Debug
+                        print(f"Imagem salva em {caminho_imagem}.")  
                     except Exception as e:
                         print(f"Erro ao salvar a imagem: {e}")
                         flash("Erro ao salvar a imagem. Tente novamente.", "danger")
                         return render_template('adicionar_produtos.html', form=form)
 
-                    # Cria o novo produto com o caminho da imagem
                     new_produto = Produto(
                         nome=form.nome.data,
                         preco=form.preco.data,
@@ -98,7 +92,7 @@ def add_produto():
                         return render_template('adicionar_produtos.html', form=form)
                     except IntegrityError as e:
                         db.session.rollback()
-                        print(f"Erro ao adicionar produto: {e}")  # Debug
+                        print(f"Erro ao adicionar produto: {e}")  
                         flash("Erro ao adicionar produto. Verifique os dados e tente novamente.", "danger")
                         return render_template('adicionar_produtos.html', form=form)
                 else:
@@ -108,11 +102,10 @@ def add_produto():
                 flash("Por favor, envie uma imagem do produto.", "warning")
                 return render_template('adicionar_produtos.html', form=form)
         else:
-            print("Formulário inválido:", form.errors)  # Debug
+            print("Formulário inválido:", form.errors)  
             flash("Erro no formulário. Verifique os campos e tente novamente.", "danger")
             return render_template('adicionar_produtos.html', form=form)
 
-    # Para GET, renderiza o template HTML do formulário
     return render_template('adicionar_produtos.html', form=form)
 
 @app.route('/vendas', methods=['POST'])
@@ -120,7 +113,8 @@ def add_venda():
     form = VendaForm(data=request.json)
 
     if form.validate():
-        # Verificar se o cliente existe
+        
+        #Verificar se o cliente existe
         cliente = Cliente.query.get(form.cliente_id.data)
         if not cliente:
             return jsonify({"error": "Cliente não encontrado."}), 404

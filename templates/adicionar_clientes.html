@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adicionar Cliente</title>
     <style>
-        /* Estilos gerais */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f2f5;
@@ -63,7 +62,6 @@
             background-color: #0056b3;
         }
 
-        /* Estilos para as mensagens flash */
         .flash-message {
             padding: 10px;
             margin-bottom: 20px;
@@ -83,7 +81,6 @@
     <div class="container">
         <h1>Adicionar Cliente</h1>
 
-        <!-- Bloco para exibir mensagens de flash -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
